@@ -6,6 +6,14 @@
 # Convert based and doing class_name's to lower case and replace spaces with dashes
 # i.e., New York City becomes new-york-city
 #
+# Default colors for undefined based and doing values
+- class_name: "default-based"
+  element: "border"
+  color_name: "#FF6B6B"
+- class_name: "default-doing"
+  element: "background-color"
+  color_name: "#FFE5CC"
+# Specific defined colors
 - class_name: "brooklyn"
   element: "border"
   color_name: "#8eb2d6"
