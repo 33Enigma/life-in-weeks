@@ -1,56 +1,50 @@
-# 官方 Hugo 工作流模板的简化版本
 name: Deploy Hugo site to Pages
 
 on:
+  # 在推送到 main 分支时触发
   push:
-    branches: ["main"]
+    branches: 
+      - main
+  # 允许手动触发工作流
   workflow_dispatch:
 
-# 设置 GITHUB_TOKEN 的权限
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# 只允许一个并发部署
 concurrency:
   group: "pages"
-  cancel-in-progress: false
+  cancel-in-progress: true
 
-# 默认值
 defaults:
   run:
     shell: bash
 
 jobs:
-  # 构建 job
   build:
     runs-on: ubuntu-latest
-    env:
-      HUGO_VERSION: 0.123.6
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
-      - name: Setup Pages
-        id: pages
-        uses: actions/configure-pages@v4
+        uses: actions/checkout@v3
+      
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2
         with:
-          hugo-version: ${{ env.HUGO_VERSION }}
+          hugo-version: '0.123.6'
           extended: true
+          
       - name: Build with Hugo
-        run: |
-          hugo \
-            --gc \
-            --minify \
-            --baseURL "${{ steps.pages.outputs.base_url }}/"
+        env:
+          HUGO_ENVIRONMENT: production
+          HUGO_ENV: production
+        run: hugo --minify --baseURL "https://33enigma.github.io/life-in-weeks/"
+        
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v1
         with:
           path: ./public
 
-  # 部署 job
   deploy:
     environment:
       name: github-pages
@@ -60,4 +54,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v1
