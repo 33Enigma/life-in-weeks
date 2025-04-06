@@ -1,41 +1,56 @@
+# 官方 Hugo 工作流模板的简化版本
 name: Deploy Hugo site to Pages
 
 on:
   push:
-    branches:
-      - main
+    branches: ["main"]
   workflow_dispatch:
 
+# 设置 GITHUB_TOKEN 的权限
 permissions:
   contents: read
   pages: write
   id-token: write
 
+# 只允许一个并发部署
 concurrency:
   group: "pages"
-  cancel-in-progress: true
+  cancel-in-progress: false
+
+# 默认值
+defaults:
+  run:
+    shell: bash
 
 jobs:
+  # 构建 job
   build:
     runs-on: ubuntu-latest
+    env:
+      HUGO_VERSION: 0.123.6
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      
+      - name: Setup Pages
+        id: pages
+        uses: actions/configure-pages@v4
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2
         with:
-          hugo-version: 'latest'
+          hugo-version: ${{ env.HUGO_VERSION }}
           extended: true
-          
       - name: Build with Hugo
-        run: hugo --minify
-        
+        run: |
+          hugo \
+            --gc \
+            --minify \
+            --baseURL "${{ steps.pages.outputs.base_url }}/"
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v2
+        uses: actions/upload-pages-artifact@v3
         with:
           path: ./public
 
+  # 部署 job
   deploy:
     environment:
       name: github-pages
@@ -45,4 +60,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v2
+        uses: actions/deploy-pages@v4
