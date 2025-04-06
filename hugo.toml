@@ -1,4 +1,4 @@
-baseURL = 'https://weeks.ginatrapani.org/'
+baseURL = 'https://33enigma.github.io/life-in-weeks/'
 languageCode = 'en-us'
 title = 'My Life in Weeks'
 disableKinds = ["taxonomy", "taxonomy"]
