@@ -1,0 +1,18 @@
+{{ if $.Store.Get "buttonUrl" }}
+<a href="{{ $.Store.Get "buttonUrl" }}"
+    class="{{ $.Store.Get "buttonClass" }} has-url"
+    data-date="{{ $.Store.Get "buttonDataDate" }}"
+    data-bs-toggle="tooltip"
+    data-bs-placement="bottom"
+    data-bs-custom-class="custom-tooltip"
+    data-bs-title="{{ $.Store.Get "buttonDataBSTitle" }}"
+    target="_blank">{{ $.Store.Get "buttonLabel" }}</a>
+{{ else }}
+<button type="button"
+    class="{{ $.Store.Get "buttonClass" }}"
+    data-date="{{ $.Store.Get "buttonDataDate" }}"
+    data-bs-toggle="tooltip"
+    data-bs-placement="bottom"
+    data-bs-custom-class="custom-tooltip"
+    data-bs-title="{{ $.Store.Get "buttonDataBSTitle" }}">{{ $.Store.Get "buttonLabel" }}</button>
+{{ end }}
