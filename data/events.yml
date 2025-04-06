@@ -2,11 +2,12 @@
 # The first event should be birth.
 # The date should match start_date in content/index.md.
 #
-"1975-09-19":
-    - headline: "🐣 I was born"
-      description: "I entered the world at around 9am in Brooklyn, New York, USA, the youngest of 4 by far, a happy accident. Thanks, Mom. Dad came to the hospital in a jacket and tie to meet me for the first time."
-      based: "Brooklyn"
-      doing: "I was tiny"
+"1996-07-09":
+    - headline: "🐣 我出生啦"
+      description: "I entered the world at around 2pm in Brooklyn, New York, USA, the youngest of 4 by far, a happy accident. Thanks, Mom. Dad came to the hospital in a jacket and tie to meet me for the first time."
+      based: "湛江"
+      doing: "Baby"
+      url: "https://yuque.antfin.com/wulishan.wls/42/mzi1z5lr0ewpfcin"
 
 "1980-09-01":
     - headline: "🖍️ Kindergarten"
