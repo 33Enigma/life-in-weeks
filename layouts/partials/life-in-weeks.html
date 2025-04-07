@@ -40,11 +40,33 @@
     {{ range $date, $events := $data }}
         {{ range $events }}
             {{ $.Store.Set "based" .based }}
-            {{ $.Store.Set "basedClass" (replace (lower .based) " " "-") }}
-            {{ $.Store.Set "basedClass" (cond (in (slice "brooklyn" "san-diego" "north-carolina" "poughkeepsie") ($.Store.Get "basedClass")) ($.Store.Get "basedClass") "default-based") }}
+            {{ $basedClassRaw := replace (lower .based) " " "-" }}
+            {{ $.Store.Set "basedClass" $basedClassRaw }}
+            
+            {{ $foundBased := false }}
+            {{ range $.Site.Data.colors }}
+                {{ if and (eq .element "border") (eq .class_name $basedClassRaw) }}
+                    {{ $foundBased = true }}
+                {{ end }}
+            {{ end }}
+            {{ if not $foundBased }}
+                {{ $.Store.Set "basedClass" "default-based" }}
+            {{ end }}
+            
             {{ $.Store.Set "doing" .doing }}
-            {{ $.Store.Set "doingClass" (replace (lower .doing) " " "-") }}
-            {{ $.Store.Set "doingClass" (cond (in (slice "i-was-tiny" "kindergartner" "student" "high-school-student" "college-student" "working" "freelancing" "funemployed") ($.Store.Get "doingClass")) ($.Store.Get "doingClass") "default-doing") }}
+            {{ $doingClassRaw := replace (lower .doing) " " "-" }}
+            {{ $.Store.Set "doingClass" $doingClassRaw }}
+            
+            {{ $foundDoing := false }}
+            {{ range $.Site.Data.colors }}
+                {{ if and (eq .element "background-color") (eq .class_name $doingClassRaw) }}
+                    {{ $foundDoing = true }}
+                {{ end }}
+            {{ end }}
+            {{ if not $foundDoing }}
+                {{ $.Store.Set "doingClass" "default-doing" }}
+            {{ end }}
+            
             {{ break }}
         {{ end }}
         {{ break }}
@@ -161,13 +183,33 @@
     
                                 {{ if .based }}
                                     {{ $.Store.Set "based" .based }}
-                                    {{ $.Store.Set "basedClass" (replace (lower .based) " " "-") }}
-                                    {{ $.Store.Set "basedClass" (cond (in (slice "brooklyn" "san-diego" "north-carolina" "poughkeepsie") ($.Store.Get "basedClass")) ($.Store.Get "basedClass") "default-based") }}
+                                    {{ $basedClassRaw := replace (lower .based) " " "-" }}
+                                    {{ $.Store.Set "basedClass" $basedClassRaw }}
+                                    
+                                    {{ $foundBased := false }}
+                                    {{ range $.Site.Data.colors }}
+                                        {{ if and (eq .element "border") (eq .class_name $basedClassRaw) }}
+                                            {{ $foundBased = true }}
+                                        {{ end }}
+                                    {{ end }}
+                                    {{ if not $foundBased }}
+                                        {{ $.Store.Set "basedClass" "default-based" }}
+                                    {{ end }}
                                 {{ end }}
                                 {{ if .doing }}
                                     {{ $.Store.Set "doing" .doing }}
-                                    {{ $.Store.Set "doingClass" (replace (lower .doing) " " "-") }}
-                                    {{ $.Store.Set "doingClass" (cond (in (slice "i-was-tiny" "kindergartner" "student" "high-school-student" "college-student" "working" "freelancing" "funemployed") ($.Store.Get "doingClass")) ($.Store.Get "doingClass") "default-doing") }}
+                                    {{ $doingClassRaw := replace (lower .doing) " " "-" }}
+                                    {{ $.Store.Set "doingClass" $doingClassRaw }}
+                                    
+                                    {{ $foundDoing := false }}
+                                    {{ range $.Site.Data.colors }}
+                                        {{ if and (eq .element "background-color") (eq .class_name $doingClassRaw) }}
+                                            {{ $foundDoing = true }}
+                                        {{ end }}
+                                    {{ end }}
+                                    {{ if not $foundDoing }}
+                                        {{ $.Store.Set "doingClass" "default-doing" }}
+                                    {{ end }}
                                 {{ end }}
                                 {{ if ne .association nil }}
                                     {{ $.Store.Set "association" .association }}
